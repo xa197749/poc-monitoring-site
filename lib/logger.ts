@@ -29,8 +29,8 @@ async function sendToLoki(entries: LogEntry[]) {
   } catch (e) {}
 }
 export const logger = {
-  info: (message, meta = {}) => sendToLoki([{ level: "info", message, ...meta }]),
-  warn: (message, meta = {}) => sendToLoki([{ level: "warn", message, ...meta }]),
-  error: (message, meta = {}) => sendToLoki([{ level: "error", message, ...meta }]),
-  debug: (message, meta = {}) => sendToLoki([{ level: "debug", message, ...meta }]),
+  info: (message: string, meta: Record<string, unknown> = {}) => sendToLoki([{ level: "info", message, ...meta }]),
+  warn: (message: string, meta: Record<string, unknown> = {}) => sendToLoki([{ level: "warn", message, ...meta }]),
+  error: (message: string, meta: Record<string, unknown> = {}) => sendToLoki([{ level: "error", message, ...meta }]),
+  debug: (message: string, meta: Record<string, unknown> = {}) => sendToLoki([{ level: "debug", message, ...meta }]),
 };
