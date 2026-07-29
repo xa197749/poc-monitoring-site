@@ -4,7 +4,7 @@ type LogEntry = {
   message: string;
   [key: string]: unknown;
 };
-async function sendToLoki(entries) {
+async function sendToLoki(entries: LogEntry[]) {
   const lokiUrl = process.env.LOKI_URL;
   const authHeader = process.env.LOKI_AUTH;
   if (!lokiUrl || !authHeader) return;
