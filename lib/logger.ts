@@ -1,25 +1,18 @@
+@'
 /**
  * Loki ログ送信ライブラリ
  */
-
 type LogLevel = "info" | "warn" | "error" | "debug";
-
 type LogEntry = {
   level: LogLevel;
   message: string;
   [key: string]: unknown;
 };
-
 async function sendToLoki(entries: LogEntry[]): Promise<void> {
-  const endpoint = process.env.OTEL_EXPORTER_OTLP_ENDPOINT;
-  const headers = process.env.OTEL_EXPORTER_OTLP_HEADERS;
-
-  if (!endpoint || !headers) return;
-
-  const lokiUrl = endpoint.replace("/otlp", "") + "/loki/api/v1/push";
-  const authHeader = headers.replace("Authorization=", "");
+  const lokiUrl = process.env.LOKI_URL;
+  const authHeader = process.env.LOKI_AUTH;
+  if (!lokiUrl || !authHeader) return;
   const now = Date.now() * 1_000_000;
-
   const streams = entries.map((entry) => {
     const { level, message, ...labels } = entry;
     return {
@@ -33,7 +26,6 @@ async function sendToLoki(entries: LogEntry[]): Promise<void> {
       values: [[String(now), JSON.stringify({ message, ...labels })]],
     };
   });
-
   try {
     await fetch(lokiUrl, {
       method: "POST",
@@ -47,7 +39,6 @@ async function sendToLoki(entries: LogEntry[]): Promise<void> {
     // ログ送信失敗は無視
   }
 }
-
 export const logger = {
   info: (message: string, meta?: Record<string, unknown>) =>
     sendToLoki([{ level: "info", message, ...meta }]),
@@ -58,3 +49,4 @@ export const logger = {
   debug: (message: string, meta?: Record<string, unknown>) =>
     sendToLoki([{ level: "debug", message, ...meta }]),
 };
+'@ | Set-Content lib\logger.ts -Encoding UTF8
