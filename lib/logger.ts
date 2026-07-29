@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Loki 繝ｭ繧ｰ騾∽ｿ｡繝ｩ繧､繝悶Λ繝ｪ
  */
 type LogLevel = "info" | "warn" | "error" | "debug";
