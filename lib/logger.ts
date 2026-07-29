@@ -1,6 +1,5 @@
-@'
-/**
- * Loki ログ送信ライブラリ
+﻿/**
+ * Loki 繝ｭ繧ｰ騾∽ｿ｡繝ｩ繧､繝悶Λ繝ｪ
  */
 type LogLevel = "info" | "warn" | "error" | "debug";
 type LogEntry = {
@@ -36,8 +35,7 @@ async function sendToLoki(entries: LogEntry[]): Promise<void> {
       body: JSON.stringify({ streams }),
     });
   } catch {
-    // ログ送信失敗は無視
-  }
+    // 繝ｭ繧ｰ騾∽ｿ｡螟ｱ謨励・辟｡隕・  }
 }
 export const logger = {
   info: (message: string, meta?: Record<string, unknown>) =>
